@@ -13,6 +13,8 @@ class TodoListView(LoginRequiredMixin,ListView):
     model = Task
     context_object_name = 'tasks'
     ordering = "-created_date"
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
 class TodoCreateView(LoginRequiredMixin,CreateView):
     model = Task
