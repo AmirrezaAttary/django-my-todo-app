@@ -9,14 +9,13 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 class TaskModelViewSet(viewsets.ModelViewSet):
-    '''getting a list of tasks and creating new task'''
-    permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    """getting a list of tasks and creating new task"""
+
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     serializer_class = TaskSerializer
     pagination_class = LargeResultsSetPagination
     queryset = Task.objects.all()
-    filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
-    filterset_fields = ['complete']
-    search_fields = ['title']
-    ordering_fields = ['created_date']
-    
-    
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ["complete"]
+    search_fields = ["title"]
+    ordering_fields = ["created_date"]

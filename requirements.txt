@@ -7,3 +7,6 @@ python-decouple==3.8
 drf-yasg[validation]
 djangorestframework-simplejwt
 django-mail-templated
+black
+flake8
+pytest-django
