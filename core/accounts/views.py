@@ -5,9 +5,13 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from .forms import CustomUserCreationForm  # فرم سفارشی را ایمپورت کنید
 
+
 class CustomLoginView(LoginView):
     template_name = "accounts/login.html"
-    fields = ("email", "password")  # تغییر به 'email' چون مدل شما از username استفاده نمی‌کند
+    fields = (
+        "email",
+        "password",
+    )  # تغییر به 'email' چون مدل شما از username استفاده نمی‌کند
     redirect_authenticated_user = True
 
     def get_success_url(self):

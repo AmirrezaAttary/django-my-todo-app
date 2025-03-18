@@ -9,22 +9,27 @@ from django.views import View
 
 # Create your views here.
 
-class TodoListView(LoginRequiredMixin,ListView):
+
+class TodoListView(LoginRequiredMixin, ListView):
     model = Task
-    context_object_name = 'tasks'
+    context_object_name = "tasks"
     ordering = "-created_date"
+
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)
 
-class TodoCreateView(LoginRequiredMixin,CreateView):
+
+class TodoCreateView(LoginRequiredMixin, CreateView):
     model = Task
     fields = ["title"]
     success_url = "/"
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(TodoCreateView, self).form_valid(form)
-    
-class TodoCompleteView(LoginRequiredMixin,View):
+
+
+class TodoCompleteView(LoginRequiredMixin, View):
     model = Task
     success_url = "/"
 
@@ -33,12 +38,14 @@ class TodoCompleteView(LoginRequiredMixin,View):
         object.complete = True
         object.save()
         return redirect(self.success_url)
-    
-class TodoDeleteView(LoginRequiredMixin,DeleteView):
+
+
+class TodoDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     success_url = "/"
 
-class TodoUpdateView(LoginRequiredMixin,UpdateView):
+
+class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TodoUpdateForm
     success_url = "/"
