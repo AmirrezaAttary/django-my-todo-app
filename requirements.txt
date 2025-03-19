@@ -4,6 +4,7 @@ djangorestframework==3.15.2
 Markdown==3.7
 pillow==10.4.0
 python-decouple==3.8
+coreapi
 drf-yasg[validation]
 djangorestframework-simplejwt
 django-mail-templated
