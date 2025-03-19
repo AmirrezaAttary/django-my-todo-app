@@ -1,0 +1,33 @@
+name: Django Project Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Install Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
+
+    - name: Build and Start Docker Containers
+      run: docker compose up -d --build
+
+    - name: Wait for Backend to be Ready
+      run: sleep 40  # یا استفاده از health check
+
+    - name: Check Backend Logs
+      run: docker compose logs backend
+
+
+    - name: Run Pytest (Unit Tests)
+      run: docker compose exec backend sh -c "pytest ."
