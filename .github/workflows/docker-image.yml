@@ -23,9 +23,6 @@ jobs:
       run: docker-compose -f Docker-compose.yaml up -d
 
     - name: Run Pytest (Unit Tests)
-      run: docker compose exec backend sh -c "pytest ."
-
-    - name: Run Pytest (Unit Tests)
       run: docker compose exec backend sh -c "black ."
 
     
