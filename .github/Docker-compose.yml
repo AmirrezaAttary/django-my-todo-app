@@ -5,12 +5,13 @@ services:
     container_name: todo
     command: python manage.py runserver 0.0.0.0:8080
     volumes:
-      - ./core:/app
+      - .:/app
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     environment:
-      - SECRET_KEY=django-insecure-^qy2ug*4^0xx0^b+(^ih-#w$+j_)i!*4ftaeiu0r0a4%^-=(g9
-      - DEBUG=True
+      - DEBUG=${DEBUG}
 
   smtp4dev:
       image: rnwood/smtp4dev:v3
