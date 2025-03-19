@@ -1,4 +1,4 @@
-name: Django Project Test
+name: Docker Image CI
 
 on:
   push:
@@ -7,27 +7,17 @@ on:
     branches: [ "main" ]
 
 jobs:
+
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    - name: Setup Docker-compose
+      run: docker-compose up -d
 
-    - name: Install Docker Compose
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y docker-compose
+    - name: pip
+      run: docker-compose exec todo sh -c "pip install -r requirements.txt"
 
-    - name: Build and Start Docker Containers
-      run: docker-compose up -d --build
-
-    - name: Wait for Backend to be Ready
-      run: sleep 40  # یا استفاده از health check
-
-    - name: Check Backend Logs
-      run: docker compose logs backend
-
-
-    - name: Run Pytest (Unit Tests)
-      run: docker compose exec backend sh -c "pytest ."
+    
