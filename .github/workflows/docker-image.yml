@@ -23,9 +23,9 @@ jobs:
       run: docker-compose -f Docker-compose.yaml up -d
 
     - name: Wait for Todo to be Ready
-      run: sleep 40
+      run: sleep 10
 
     - name: Run Pytest (Unit Tests)
-      run: docker compose exec todo sh -c "pytest ."
+      run: docker-compose exec todo sh -c "pytest ."
 
     
