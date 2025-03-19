@@ -22,11 +22,8 @@ jobs:
     - name: Setup Docker-compose
       run: docker-compose -f Docker-compose.yaml up -d
 
-    - name: Wait for Backend to be Ready
+    - name: Wait for Todo to be Ready
       run: sleep 40
-
-    - name: Run Pytest (Unit Tests)
-      run: docker compose exec todo sh -c "black ."
 
     - name: Run Pytest (Unit Tests)
       run: docker compose exec todo sh -c "pytest ."
