@@ -5,29 +5,25 @@ services:
     container_name: todo
     command: python manage.py runserver 0.0.0.0:8080
     volumes:
-      - ./core:/app
+      - .:/app
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     environment:
-      - SECRET_KEY=django-insecure-^qy2ug*4^0xx0^b+(^ih-#w$+j_)i!*4ftaeiu0r0a4%^-=(g9
-      - DEBUG=True
+      - DEBUG=${DEBUG}
 
   smtp4dev:
-      image: rnwood/smtp4dev:v3
-      restart: always
-      ports:
-        # Change the number before : to the port the web interface should be accessible on
-        - '5000:80'
-        # Change the number before : to the port the SMTP server should be accessible on
-        - '25:25'
-        # Change the number before : to the port the IMAP server should be accessible on
-        - '143:143'
-      volumes:
-          - smtp4dev-data:/smtp4dev
-      environment:
-        # - ServerOptions__Urls=http://*:80
-        - ServerOptions__HostName=smtp4dev
-
+    image: rnwood/smtp4dev:v3
+    restart: always
+    ports:
+      - '5000:80'
+      - '25:25'
+      - '143:143'
+    volumes:
+      - smtp4dev-data:/smtp4dev
+    environment:
+      - ServerOptions__HostName=smtp4dev
 
 volumes:
   smtp4dev-data:
