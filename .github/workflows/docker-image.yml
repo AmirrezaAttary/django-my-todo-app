@@ -22,7 +22,10 @@ jobs:
     - name: Setup Docker-compose
       run: docker-compose -f Docker-compose.yaml up -d
 
-    - name: pip
-      run: docker-compose exec todo sh -c "pip install -r requirements.txt"
+    - name: Wait for Todo to be Ready
+      run: sleep 10
+
+    - name: Run Pytest (Unit Tests)
+      run: docker exec todo sh -c "pytest ."
 
     
