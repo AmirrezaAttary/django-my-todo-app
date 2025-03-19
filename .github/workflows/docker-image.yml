@@ -22,7 +22,10 @@ jobs:
     - name: Setup Docker-compose
       run: docker-compose -f Docker-compose.yaml up -d
 
-    - name: pip
-      run: docker-compose exec todo sh -c "pip install -r requirements.txt"
+    - name: Run Pytest (Unit Tests)
+      run: docker compose exec backend sh -c "pytest ."
+
+    - name: Run Pytest (Unit Tests)
+      run: docker compose exec backend sh -c "black ."
 
     
