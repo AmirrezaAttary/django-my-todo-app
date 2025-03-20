@@ -20,7 +20,7 @@ jobs:
         sudo apt-get install -y docker-compose
 
     - name: Setup Docker-compose
-      run: docker-compose -f Docker-compose.yaml up -d
+      run: docker-compose -f Docker-compose-1.yaml up -d
 
     - name: Wait for Todo to be Ready
       run: sleep 10
