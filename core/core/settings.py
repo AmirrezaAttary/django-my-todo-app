@@ -170,3 +170,5 @@ EMAIL_PORT = 25
 CELERY_BROKER_URL = "redis://redis:6379/1"
 
 
+
+OPENWEATHER_API_KEY = config("OPENWEATHER_API_KEY",default=None)

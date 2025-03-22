@@ -5,7 +5,10 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from .forms import CustomUserCreationForm  # فرم سفارشی را ایمپورت کنید
 from accounts.task import sendEmail
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.cache import cache_page
+import requests
+from django.conf import settings
 
 class CustomLoginView(LoginView):
     template_name = "accounts/login.html"
@@ -40,3 +43,24 @@ class RegisterPage(FormView):
 def send_email(request):
     sendEmail.delay()
     return HttpResponse("Email sent successfully.")
+
+
+@cache_page(60 * 20)  # کش کردن پاسخ به مدت ۲۰ دقیقه
+def weather_view(request, city="تهران"):
+    api_key = settings.OPENWEATHER_API_KEY  # از settings یا مستقیماً کلید را قرار دهید
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric&lang=fa'
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        result = {
+            'city': data['name'],
+            'country': data['sys']['country'],
+            'temperature': data['main']['temp'],
+            'description': data['weather'][0]['description'],
+            'humidity': data['main']['humidity'],
+            'wind_speed': data['wind']['speed']
+        }
+        return JsonResponse(result)
+    else:
+        return JsonResponse({'error': 'شهر یافت نشد'}, status=404)
