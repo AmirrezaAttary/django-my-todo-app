@@ -1,16 +1,37 @@
 version: "3.9"
 services:
-  backend:
+
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+
+  todo:
     build: .
-    container_name: backend
-    command: python manage.py runserver 0.0.0.0:8000
+    container_name: todo
+    command: python manage.py runserver 0.0.0.0:8080
     volumes:
       - ./core:/app
     ports:
-      - "8000:8000"
+      - "8080:8080"
     environment:
       - SECRET_KEY=django-insecure--dm)rh6=$uqyt8hej!$=nt(-$f%tt339*k4&bl432d)0^7oknh
       - DEBUG=True
+    depends_on:
+      - redis
+    
+  worker:
+    build: .
+    command: celery -A core worker --loglevel=info
+    volumes:
+      - ./core:/app
+    depends_on:
+      - redis
+      - todo
+    
 
   smtp4dev:
       image: rnwood/smtp4dev:v3
